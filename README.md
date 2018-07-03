@@ -45,12 +45,12 @@ Below is a very simple **Behavior Tree**, using **Composite** and **Task** nodes
 
 ```C#
 [Serializable]
-public class BT_EscapePlayer : BehaviourTree {
-    public BT_EscapePlayer(BB_EscapePlayer blackboard) : base(blackboard) {
+public class BT_Player : BehaviourTree {
+    public BT_Player(BB_Player blackboard) : base(blackboard) {
         root =
             new MemSelector(new List<BaseNode> {
                 new MemSequence(new List<BaseNode> {
-                    new BTTask_MoveTo2D(ref blackboard.nextPointVector, 3.0f)
+                    new BTTask_MoveTo(ref blackboard.nextPointVector, 3.0f)
                 }, new BlackboardCondition<Hero.State>(ref blackboard.heroState, Hero.State.Unprotected, Utils.KEY_QUERY.IS_EQUAL_TO))
             });
     }
