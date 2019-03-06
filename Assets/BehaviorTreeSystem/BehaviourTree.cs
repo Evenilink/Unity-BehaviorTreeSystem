@@ -16,7 +16,7 @@ namespace BehaviorTree {
         public void Execute(Object target) {
             if (root == null)
                 return;
-            tick = new Tick(this, blackboard, target);
+            tick = new Tick(blackboard, target);
             root.Update(tick);
         }
 
