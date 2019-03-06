@@ -1,31 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace BehaviorTree {
 
     [System.Serializable]
     public class MemSelector : BaseNode {
 
-        public MemSelector(List<BaseNode> children, params Decorator[] decorators) : base(children, decorators) { }
+        public MemSelector(List<BaseNode> children) : base(children) { }
 
-        protected override void Open(Tick tick) {
-            base.Open(tick);
-            tick.GetBlackboard().RemoveRunningChildIndex(this);
-        }
-
-        protected override Utils.NODE_STATES Execute(Tick tick) {
-            base.Execute(tick);
+        protected override NODE_STATE Execute(Tick tick) {
             int childIndex = tick.GetBlackboard().GetRunningChildIndex(this);
             for (int i = childIndex; i < children.Count; i++) {
-                Utils.NODE_STATES status = children[i].Update(tick);
-                if (status != Utils.NODE_STATES.FAILURE) {
-                    if (status == Utils.NODE_STATES.RUNNING)
-                        tick.GetBlackboard().AddRunningChildIndex(this, i);
+                NODE_STATE status = children[i].Update(tick);
+                if (status != NODE_STATE.FAILURE) {
+                    if (status == NODE_STATE.RUNNING)
+                        tick.GetBlackboard().AddRunningChild(this, i);
                     return status;
                 }
             }
-            return Utils.NODE_STATES.FAILURE;
+            return NODE_STATE.FAILURE;
         }
     }
 }

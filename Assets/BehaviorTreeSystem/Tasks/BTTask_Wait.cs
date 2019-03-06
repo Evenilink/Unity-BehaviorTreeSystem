@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BehaviorTree {
 
@@ -10,7 +8,7 @@ namespace BehaviorTree {
         private float timeToWait;
         private float currTime;
 
-        public BTTask_Wait(float timeToWait, params Decorator[] decorators) : base(null, decorators) {
+        public BTTask_Wait(float timeToWait) : base(null) {
             this.timeToWait = timeToWait;
             currTime = timeToWait;
         }
@@ -20,13 +18,12 @@ namespace BehaviorTree {
             currTime = timeToWait;
         }
 
-        protected override Utils.NODE_STATES Execute(Tick tick) {
-            base.Execute(tick);
+        protected override NODE_STATE Execute(Tick tick) {
             if (currTime <= 0)
-                return Utils.NODE_STATES.SUCCESS;
+                return NODE_STATE.SUCCESS;
             else {
                 currTime -= Time.deltaTime;
-                return Utils.NODE_STATES.RUNNING;
+                return NODE_STATE.RUNNING;
             }
         }
     }

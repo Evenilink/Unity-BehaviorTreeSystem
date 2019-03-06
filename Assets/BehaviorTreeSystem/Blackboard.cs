@@ -15,21 +15,9 @@ namespace BehaviorTree {
             runningChildIndex = new Dictionary<BaseNode, int>();
         }
 
-        public List<BaseNode> GetOpenNodes() {
-            return openNodes;
-        }
+        public List<BaseNode> GetOpenNodes() { return openNodes; }
 
-        public void SetOpen(BaseNode node, bool open) {
-            if (open)
-                openNodes.Add(node);
-            else openNodes.Remove(node);
-        }
-
-        public bool GetIsOpen(BaseNode node) {
-            return openNodes.Contains(node);
-        }
-
-        public void AddRunningChildIndex(BaseNode node, int index) {
+        public void AddRunningChild(BaseNode node, int index) {
             bool exists = runningChildIndex.ContainsKey(node);
             if (!exists)
                 runningChildIndex.Add(node, index);
@@ -45,10 +33,15 @@ namespace BehaviorTree {
             return 0;
         }
 
-        public void RemoveRunningChildIndex(BaseNode node) {
-            runningChildIndex.Remove(node);
-        }
+        public void RemoveRunningChild(BaseNode node) { runningChildIndex.Remove(node); }
 
+        public void AddOpenNode(BaseNode node) { openNodes.Add(node); }
+
+        public bool NodeOpened(BaseNode node) { return openNodes.Contains(node); }
+
+        public void RemoveOpenNode(BaseNode node) { openNodes.Remove(node); }
+
+        // Debug only.
         public List<string> GetOpenNodesList() {
             List<string> openNodesNames = new List<string>();
             foreach (BaseNode node in openNodes)

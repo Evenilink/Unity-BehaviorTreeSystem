@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BehaviorTree {
@@ -10,26 +8,21 @@ namespace BehaviorTree {
 
         private GameObject target;
         private BlackboardKey<Vector3> location;
-        private Decorator[] decorator;
+        private float acceptableRadius;
 
-        public BTTask_MoveTo(ref BlackboardKey<Vector3> location, params Decorator[] decorators) : base(null, decorators) {
+        public BTTask_MoveTo(ref BlackboardKey<Vector3> location, float acceptableRadius) : base(null) {
             this.location = location;
+            this.acceptableRadius = acceptableRadius;
         }
 
-        protected override void Open(Tick tick) {
-            base.Open(tick);
-        }
-
-        protected override Utils.NODE_STATES Execute(Tick tick) {
-            base.Execute(tick);
+        protected override NODE_STATE Execute(Tick tick) {
             target = (GameObject)tick.GetTarget();
-            if (Utils.CompareVectors(target.transform.position, location.GetValue())) {
-                return Utils.NODE_STATES.SUCCESS;
-            }
+            if ((location.GetValue() - target.transform.position).magnitude <= acceptableRadius)
+                return NODE_STATE.SUCCESS;
             else {
                 Vector3 direction = location.GetValue() - target.transform.position;
                 target.transform.position = new Vector3(target.transform.position.x + direction.x * Time.deltaTime, target.transform.position.y + direction.y * Time.deltaTime, target.transform.position.z);
-                return Utils.NODE_STATES.RUNNING;
+                return NODE_STATE.RUNNING;
             }
         }
     }

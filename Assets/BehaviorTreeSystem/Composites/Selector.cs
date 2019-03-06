@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace BehaviorTree {
 
@@ -9,14 +7,13 @@ namespace BehaviorTree {
 
         public Selector(List<BaseNode> children) : base(children) { }
 
-        protected override Utils.NODE_STATES Execute(Tick tick) {
-            base.Execute(tick);
+        protected override NODE_STATE Execute(Tick tick) {
             for (int i = 0; i < children.Count; i++) {
-                Utils.NODE_STATES status = children[i].Update(tick);
-                if (status != Utils.NODE_STATES.FAILURE)
+                NODE_STATE status = children[i].Update(tick);
+                if (status != NODE_STATE.FAILURE)
                     return status;
             }
-            return Utils.NODE_STATES.FAILURE;
+            return NODE_STATE.FAILURE;
         }
     }
 }
