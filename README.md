@@ -56,7 +56,3 @@ public class BT_Player : BehaviourTree {
     }
 }
 ```
-
-## Full Example
-
-For a complete example, check this [project](https://github.com/Evenilink/FEUP-ASSO).
